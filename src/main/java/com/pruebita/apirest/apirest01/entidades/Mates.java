@@ -5,9 +5,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.GeneratedValue;
 
+
+//identifica la clase como entidad
 @Entity
 public class Mates {
     @Id
+    //estrategia de creación para que el ID sea autoincremental
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private Long id;
