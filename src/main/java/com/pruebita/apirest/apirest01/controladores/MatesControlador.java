@@ -6,6 +6,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import com.pruebita.apirest.apirest01.entidades.Mates;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import com.pruebita.apirest.apirest01.repositorios.MatesRepositorio;
 
 /** 
@@ -29,4 +34,19 @@ public class MatesControlador {
     public List<Mates> getAllMates(){
         return matesRepositorio.findAll();
     }
+
+    //guardar info
+    @PostMapping
+    public Mates createMate(@RequestBody Mates mate){
+        return matesRepositorio.save(mate);
+    }
+
+    //actualizar info
+
+    @PutMapping("/{id}")
+    public Mates updateMates(@PathVariable Long id, @RequestBody Mates mateDetails){
+        return mateDetails;
+    }
+
+    
 }
