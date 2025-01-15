@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.pruebita.apirest.apirest01.repositorios.MatesRepositorio;
 
@@ -21,7 +22,7 @@ import com.pruebita.apirest.apirest01.repositorios.MatesRepositorio;
  * */
 
 
-//estructura de backend que brinda estos endpoints para consumir o actualizar la información.
+//REST: estructura de backend que brinda estos endpoints para consumir o actualizar la información.
 @RestController
 @RequestMapping("/mates")
 public class MatesControlador {
@@ -43,10 +44,27 @@ public class MatesControlador {
 
     //actualizar info
 
-    @PutMapping("/{id}")
-    public Mates updateMates(@PathVariable Long id, @RequestBody Mates mateDetails){
-        return mateDetails;
+    @GetMapping("/{id}")
+    public Mates getMatesById(@RequestBody Long id){
+        return matesRepositorio.findById(id).orElseThrow(() -> new RuntimeException("No se encontro el mate"));
     }
 
-    
+    @PutMapping("/{id}")
+    public Mates updateMates(@PathVariable Long id, @RequestBody Mates mateDetails){
+        Mates mate = matesRepositorio.findById(id).orElseThrow(() -> new RuntimeException("No se encontro el mate"));
+
+        mate.setNombre(mateDetails.getNombre());
+        mate.setPrecio(mateDetails.getPrecio());
+        return matesRepositorio.save(mate);
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteMate(@PathVariable Long id){
+        Mates mate = matesRepositorio.findById(id).orElseThrow(() -> new RuntimeException("No se encontro el mate"));
+
+        matesRepositorio.delete(mate);
+
+        return "El mate: " + mate + " fué eliminado";
+    }    
+
 }
